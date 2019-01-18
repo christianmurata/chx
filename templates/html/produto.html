@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cadastro</title>
+</head>
+<body>
+    <form action="/produto" method="post">
+
+        <span>Selecione a categoria</span><br>
+        <select name="categoria" id="categoria"></select><br>
+
+        <span>Titulo</span><br>
+        <input type="text" name="titulo" id="titulo"><br>
+
+        <span>Descrição</span><br>
+        <input type="text" name="descricao" id="descricao"><br>
+
+        <span>Valor (R$)</span><br>
+        <input type="text" name="valor" id="Valor"><br>
+
+        <span>Quantidade</span><br>
+        <input type="text" name="quantidade" id="quantidade"><br>
+
+        <input type="submit" value="Cadastrar produto">
+
+    </form>
+
+    <script src="/templates/js/request.js"></script>
+    <script src="/templates/js/categorias.js"></script>
+
+</body>
+</html>
