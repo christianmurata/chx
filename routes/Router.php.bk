@@ -1,0 +1,35 @@
+<?php
+
+namespace Route;
+
+use Utils\Erro;
+use Utils\Method;
+
+class Router{
+    private $request;
+    
+	public function __construct($request){
+		$this->request = $request;
+		$this->get($request);
+    }
+    
+	public function get($route){
+		global $routes;
+
+		$url  = explode("/", trim($this->request, "/"));
+		$uri  = array_shift($url);
+		$args = $url;
+
+		// se a rota requisitada não existir exibe o erro 404
+		if(!isset($routes[$uri]))
+			Erro::_404();
+
+		// verifica se existe parâmetros
+		// if(is_array($args) && !empty($args))
+		// 	echo "temos argumentos";
+		
+		require_once $routes[$uri] . '.php';
+
+		new Method($args);
+	}
+}

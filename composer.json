@@ -1,0 +1,20 @@
+{
+    "name": "christianmurata/chx",
+    "description": "php composer study",
+    "authors": [
+        {
+            "name": "Christian Murata",
+            "email": "chris_murata@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Route\\"   : "./routes",
+            "Utils\\"   : "./classes/utils",
+            "Services\\": "./classes/services",
+            "Database\\": "./classes/database"
+        }
+    },
+    "require": {}
+}
+
