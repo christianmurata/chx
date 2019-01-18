@@ -1,0 +1,42 @@
+version: '2'
+services:
+  chx_apache:
+    build:
+      context: ./apache
+      dockerfile: Dockerfile
+    ports:
+      - ${APACHE_PORT}:80
+    volumes:
+      - ${APACHE_REPO}:/var/www/html
+      - ${APACHE_CONF}:/etc/apache2/sites-available/000-default.conf 
+    networks:
+      - chx
+    container_name: chx_apache
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./..:/app
+    command: 'true'
+    networks:
+      - chx
+    container_name: chx_composer
+    
+  chx_mysql:
+    image: mysql:5.7
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - ${MYSQL_DATA}:/var/lib/mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=chx
+      - MYSQL_DATABASE=chx
+    networks:
+      - chx
+    container_name: chx_mysql
+
+networks:
+  chx:
+            
+
