@@ -4,8 +4,8 @@ A simple CRUD/E-commerce
 
 ## Prerequisites
 
-* docker version 18.06.0-ce
-* docker-compose version 1.8.0
+* docker version 18.06.0-ce+
+* docker-compose version 1.8.0+
 
 ## How to enjoy!
 
@@ -20,8 +20,12 @@ $ cd /docker
 $ docker-compose up
 
 # install composer php
-$ docker exec -ti chx_apache composer install
+$ docker exec -ti chx_apache bash
+$ (container) cd var/www/html
+$ (container) composer install
 ```
+
+### 3 - run chx.sql
 
 ## Author
 
