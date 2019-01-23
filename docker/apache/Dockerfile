@@ -26,10 +26,10 @@ RUN export LANG=en_US.UTF-8
 RUN cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bk
 
 # PHP 7.0
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
 RUN apt-get -y install \
- php7.0 php7.0-mysql php-redis libapache2-mod-php7.0 php7.0-curl lynx-common lynx
+ php7.0 php7.0-mysql php-redis libapache2-mod-php7.0 php7.0-curl php7.0-gd lynx-common lynx
 
 # Enable apache mods.
 RUN a2enmod php7.0
