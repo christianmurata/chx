@@ -6,7 +6,10 @@
  * @param $args   - Associative array of variables to pass to the template file.
  * @return string - Output of the template file. Likely HTML.
  */
-function template($template, $args){
+
+use Utils\Utils;
+
+function template($template, $args = null){
     global $templates;
 
     $path = $templates[$template];
@@ -18,7 +21,11 @@ function template($template, $args){
     // Make values in the associative array easier to access by extracting them
     if (is_array($args)){
         foreach($args as $key => $value){
-            $key = '{' . $key . '}';
+            // verifica se é um array
+            if(is_array($value))
+                $value = Utils::liTemplate($value, $template);
+            
+            $key  = '{' . $key . '}';
             $temp = str_replace("$key", $value, $temp);
         }
     }

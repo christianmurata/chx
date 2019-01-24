@@ -72,4 +72,19 @@ Class Utils {
 
         return $pattern;
     }
+
+    public static function liTemplate($obj, $temp, $templateLi = ''){
+        foreach($obj as $value){
+            $value = (object) $value; // converte o array em objeto
+            $templateLi .= "<li>";
+            $templateLi .= "<a href=''> $value->titulo </a>";
+
+            if($temp == 'home')
+                $templateLi .= "<img src='$value->imagem' style='float:left'>";
+
+            $templateLi .= "</li><br>";
+        }
+
+        return $templateLi;
+    }
 }
