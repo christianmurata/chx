@@ -4,8 +4,11 @@ use Services\Produtos;
 use Services\Categorias;
 
 function _get($args){
+    $produto  = new Produtos;
+    $produtos = $produto->listar();
+
     $template = template('home', array(
-        'erro.home' => 'este é um teste legal'
+        'home.produtos' => $produtos,
     ));
     
     print $template;

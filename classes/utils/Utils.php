@@ -80,7 +80,7 @@ Class Utils {
             $templateLi .= "<a href=''> $value->titulo </a>";
 
             if($temp == 'home')
-                $templateLi .= "<img src='$value->imagem' style='float:left'>";
+                $templateLi .= "<img src='$value->imagem'>";
 
             $templateLi .= "</li><br>";
         }
