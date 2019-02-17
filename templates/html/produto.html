@@ -7,7 +7,7 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <form action="/produto" method="post">
+    <form action="/produto" enctype="multipart/form-data" method="post">
 
         <span>Selecione a categoria</span><br>
         <select name="categoria" id="categoria"></select><br>
@@ -19,10 +19,15 @@
         <input type="text" name="descricao" id="descricao"><br>
 
         <span>Valor (R$)</span><br>
-        <input type="text" name="valor" id="Valor"><br>
+        <input type="number" name="valor" id="valor"><br>
+        <!-- <input type="text" name="valor" id="Valor"><br> -->
 
         <span>Quantidade</span><br>
-        <input type="text" name="quantidade" id="quantidade"><br>
+        <input type="number" name="quantidade" id="quantidade"><br>
+        <!-- <input type="text" name="quantidade" id="quantidade"><br> -->
+
+        <span>Imagem</span><br>
+        <input type="file" name="imagem" id="imagem">
 
         <input type="submit" value="Cadastrar produto">
 
