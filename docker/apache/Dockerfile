@@ -1,56 +1,38 @@
-FROM ubuntu:latest
+FROM php:7.1.26-apache-stretch
+LABEL maintainer 'Christian Murata <chris_murata@hotmail.com>'
 
-MAINTAINER christian murata <chris_murata@hotmail.com>
+RUN apt-get update && apt-get install -y wget \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+        libcurl4-gnutls-dev \
+	&& docker-php-ext-install -j$(nproc) iconv \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+	&& docker-php-ext-install -j$(nproc) gd
 
-RUN apt-get update
+RUN docker-php-ext-install pdo_mysql 
 
-VOLUME /var/www/html
+RUN pecl install redis-3.1.6 \
+    && docker-php-ext-enable redis
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get install net-tools
-
-# instalando APACHE
-RUN apt-get update
-RUN apt-get install -y apache2
-
-RUN apt-get install -y software-properties-common 
-# RUN apt-get install -y software-properties-common python-software-properties
-
-# locale 
-RUN apt-get install -y language-pack-en
-RUN apt-get update
-RUN locale-gen en_US.UTF-8
-RUN export LANG=en_US.UTF-8
-
-RUN cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bk
-
-# PHP 7.0
-RUN add-apt-repository ppa:ondrej/php
-RUN apt-get update
-RUN apt-get -y install \
- php7.0 php7.0-mysql php-redis libapache2-mod-php7.0 php7.0-curl php7.0-gd lynx-common lynx
-
-# Enable apache mods.
-RUN a2enmod php7.0
 RUN a2enmod rewrite
 
-# Install composer
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+# Image directory
+RUN mkdir -p /var/www/html/images
+VOLUME /var/www/html/images
 
-# Update the PHP.ini file, enable <? ?> tags and quieten logging.
-RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini
-RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php/7.0/apache2/php.ini
+# Composer:
+WORKDIR /var/www/html
+RUN chown -R www-data /var/www
+COPY composer-install.sh /tmp
+RUN chmod 744 /tmp/composer-install.sh && /tmp/composer-install.sh && cp /usr/local/bin/composer.phar /usr/local/bin/composer
 
-# Manually set up the apache environment variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
+USER www-data
+RUN composer self-update
 
-# Expose apache.
-EXPOSE 80
+# build composer vendor files
 
-# By default start up apache in the foreground, override with /bin/bash for interative.
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+COPY composer.json /var/www/html/composer.json
+RUN /usr/local/bin/composer install -o
+
+USER root
