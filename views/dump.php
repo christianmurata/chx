@@ -12,9 +12,7 @@ function _get($args){
     }
 
     // caso contrário realiza o dump
-    if(!$geral->executaDump())
-        print "Erro ao realizar o DUMP!";
-
-    print "Dump realizado com sucesso! (RECARREGUE A PÁGINA)";
+    if($geral->executaDump())
+        print "Dump realizado com sucesso! (RECARREGUE A PÁGINA)";
 
 }
