@@ -15,6 +15,7 @@
 
     $routes = [
         '/'          => 'views/home',
+        '/dump'      => 'views/dump',
         '/login'     => 'views/login',
         '/logout'    => 'views/logout',
         '/produto'   => 'views/produto',

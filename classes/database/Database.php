@@ -3,6 +3,7 @@
 namespace Database;
 
 use \PDO;
+use PDOException;
 
 class Database
 {
@@ -19,6 +20,33 @@ class Database
         }
     }
 
+    public static function dump(){
+        self::conecta();
+
+        try{
+            $dump = file_get_contents('/var/www/html/docker/mysql/chx.sql');
+            
+            return self::$db->exec($dump);
+
+        } catch (PDOException $e){
+            return 'Erro ao executar o dump';
+        }
+    }
+
+    public static function executar($sql){
+        self::conecta();
+
+        try{
+            if(self::$db->query($sql))
+                return true;
+            else
+                return false;
+
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
     public static function selecionar($sql){
         self::conecta();
 
@@ -28,7 +56,7 @@ class Database
             if($query)
                 return $query->fetchAll(PDO::FETCH_ASSOC);
 
-        }catch(PDOException $e){
+        } catch(PDOException $e){
             return 'Erro ao processar consulta. Erro: <br>'.$e->getMessage().'<br>';
         }
     }
